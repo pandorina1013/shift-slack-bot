@@ -1,17 +1,11 @@
 function postRichMessage(channel,username,icon,text,attachments){
-  var token = PropertiesService.getScriptProperties().getProperty('SLACK_ACCESS_TOKEN');
-  var payload = {
+  var slackApp = SlackApp.create(PropertiesService.getScriptProperties().getProperty('SLACK_ACCESS_TOKEN')); 
+  slackApp.chatPostMessage("bot_test", text, {
     "icon_emoji" :icon,
     "channel" : channel,
-    "text" : text,
     "username": username,
     "attachments": attachments
-  };
-  var option = {
-    "method" : "POST",
-    "payload" : payload
-  };
-  UrlFetchApp.fetch("https://slack.com/api/chat.postMessage?token=" + token, option);
+  });
 }
 
 function postInitialKintai(){
@@ -22,6 +16,7 @@ function postInitialKintai(){
   postRichMessage(
     "bot_test",
     "KINTAI_MAN",
+    ":ghost:",
     "ここは勤怠管理を行うチャンネルです。以降の勤務予定をpostするのでスタンプにてご回答ください:heart:\nまた、当日中の勤務に関する報告はそれぞれのpostにコメントをする形でお願いします。", 
     "");
     
